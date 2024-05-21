@@ -18,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _loadCsvData() async {
-    final rawData = await rootBundle.loadString('assets/dogs.csv');
+    final rawData = await rootBundle.loadString('assets/type_of_dogs.csv');
     List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
     setState(() {
       _dogData = listData.map((row) => row.map((item) => item.toString()).toList()).toList();
@@ -29,10 +29,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dog Profiles'),
+        title: const Text('Create profile'),
       ),
       body: _dogData.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: _dogData.length,
               itemBuilder: (context, index) {
