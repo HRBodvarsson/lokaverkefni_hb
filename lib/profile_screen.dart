@@ -2,8 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:csv/csv.dart';
-import 'package:image_picker/image_picker.dart';
-
+import 'package:lokaverkefni_hb/image_handler.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -16,6 +15,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? _selectedDogType;
   bool _isLoading = true;
   String? _errorMessage;
+  File? _image;
 
   @override
   void initState() {
@@ -26,9 +26,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _loadCsvData() async {
     try {
       final rawData = await rootBundle.loadString('assets/types_of_dogs.csv');
-      List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
+      List<List<dynamic>> listData =
+          const CsvToListConverter().convert(rawData);
       setState(() {
-        _dogData = listData.map((row) => row.map((item) => item.toString()).toList()).toList();
+        _dogData = listData
+            .map((row) => row.map((item) => item.toString()).toList())
+            .toList();
         if (_dogData.isNotEmpty) {
           _dogTypes = _dogData.map((row) => row[0]).toList();
         }
@@ -38,6 +41,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         _errorMessage = e.toString();
         _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final file = await ImageHandler.pickImage();
+      setState(() {
+        _image = file;
+        _errorMessage = null; // Clear any previous error message
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString();
       });
     }
   }
@@ -78,6 +95,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               'Selected Dog Type: $_selectedDogType',
                               style: const TextStyle(fontSize: 16),
                             ),
+                      const SizedBox(height: 20),
+                      _image == null
+                          ? const Text('No image selected.')
+                          : Image.file(
+                              _image!,
+                              height: 200,
+                            ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: _pickImage,
+                        child: const Text('Upload Image'),
+                      ),
                     ],
                   ),
       ),
