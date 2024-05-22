@@ -3,7 +3,6 @@ import 'package:lokaverkefni_hb/ui/custom_navbar.dart';
 import 'package:lokaverkefni_hb/welcome_screen.dart';
 import 'package:lokaverkefni_hb/profile_screen.dart';
 import 'package:lokaverkefni_hb/settings_screen.dart';
-import 'package:lokaverkefni_hb/lib/ui/custom_navbar.dart';
 
 void main() {
   runApp(const MyApp());
