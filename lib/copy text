@@ -1,0 +1,59 @@
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:lokaverkefni_hb/image_handler.dart';
+import 'package:csv/csv.dart';
+
+class CreateProfileScreen extends StatefulWidget {
+  const CreateProfileScreen({super.key});
+
+  @override
+  _CreateProfileScreenState createState() => _CreateProfileScreenState();
+}
+
+class _CreateProfileScreenState extends State<CreateProfileScreen> {
+  File? _image;
+  String? _errorMessage;
+  String? _petName;
+  String? _ownerName;
+  String? _selectedDogType;
+  List<String> _dogTypes = [];
+  List<bool> _characteristics = List<bool>.filled(5, false);
+  final List<String> _characteristicOptions = [
+    'Is collar trained',
+    'Likes to play catch',
+    'Likes to run',
+    'Behaves well with other dogs',
+    'Behaves well with other people'
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCsvData();
+  }
+
+  Future<void> _loadCsvData() async {
+    try {
+      final rawData = await rootBundle.loadString('assets/types_of_dogs.csv');
+      List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
+      setState(() {
+        _dogTypes = listData.map((row) => row[0].toString()).toList();
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = e.toString();
+      });
+    }
+  }
+
+  Future<void> _pickImage() async {
+    try {
+      final file = await ImageHandler.pickImage();
+      setState(() {
+        _image = file;
+        _errorMessage = null; // Clear any previous error message
+      });
+    } catch (e) {
+      setState(() {
+        _error
