@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lokaverkefni_hb/image_handler.dart';
 import 'package:csv/csv.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CreateProfileScreen extends StatefulWidget {
   const CreateProfileScreen({super.key});
