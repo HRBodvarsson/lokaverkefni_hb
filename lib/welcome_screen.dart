@@ -34,9 +34,9 @@ class WelcomeScreen extends StatelessWidget {
               child: Image.asset('assets/vectors/snatalabb_logo_1.png'),
             ),
             const SizedBox(height: 10),
-            Text(
+            const Text(
               'S N A T A L A B B !',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),

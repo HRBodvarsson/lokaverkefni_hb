@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:lokaverkefni_hb/image_handler.dart';
 import 'package:csv/csv.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'main_menu_screen.dart';
 
 class CreateProfileScreen extends StatefulWidget {
   const CreateProfileScreen({super.key});
@@ -63,13 +64,20 @@ class _CreateProfileScreenState extends State<CreateProfileScreen> {
   }
 
   void _submitProfile() {
-    Navigator.pop(context, {
+    final profileData = {
       'image': _image,
       'petName': _petName,
       'ownerName': _ownerName,
       'selectedDogType': _selectedDogType,
       'characteristics': _characteristics,
-    });
+    };
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MainMenuScreen(profileData: profileData),
+      ),
+    );
   }
 
   @override

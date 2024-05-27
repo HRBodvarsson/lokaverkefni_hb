@@ -3,6 +3,7 @@ import 'welcome_screen.dart';
 import 'create_profile_screen.dart';
 import 'profile_screen.dart';
 import 'settings_screen.dart';
+import 'main_menu_screen.dart';
 import 'ui/custom_navbar.dart';
 
 void main() {
