@@ -18,6 +18,7 @@ class WelcomeScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center, // Center elements horizontally
           children: [
             Text(
               'Welcome to',
@@ -40,11 +41,14 @@ class WelcomeScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () => navigateToCreateProfile(context),
-              style: AppStyles.elevatedButtonStyle, // Use the custom style
-              child: const Text('Create Profile'),
+            const Spacer(), // This will push the button to the bottom
+            Padding(
+              padding: const EdgeInsets.only(bottom: 40.0), // Add padding if needed
+              child: ElevatedButton(
+                onPressed: () => navigateToCreateProfile(context),
+                style: AppStyles.elevatedButtonStyle, // Use the custom style
+                child: const Text('Create Profile'),
+              ),
             ),
           ],
         ),
