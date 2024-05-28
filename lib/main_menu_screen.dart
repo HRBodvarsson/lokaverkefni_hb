@@ -28,15 +28,21 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   }
 
   Future<void> _getLocation() async {
-    final locationData = await _location.getLocation();
-    setState(() {
-      _currentPosition = LatLng(locationData.latitude!, locationData.longitude!);
-    });
-    _mapController?.animateCamera(CameraUpdate.newLatLng(_currentPosition));
+    try {
+      final locationData = await _location.getLocation();
+      setState(() {
+        _currentPosition = LatLng(locationData.latitude!, locationData.longitude!);
+        print('Current position: $_currentPosition'); // Debugging statement
+      });
+      _mapController?.animateCamera(CameraUpdate.newLatLng(_currentPosition));
+    } catch (e) {
+      print('Error getting location: $e'); // Debugging statement
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) {
     _mapController = controller;
+    _getLocation();
   }
 
   void _onTap(int index) {

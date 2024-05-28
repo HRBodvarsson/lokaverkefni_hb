@@ -9,8 +9,8 @@ import 'ui/custom_navbar.dart';
 void main() {
   runApp(const MyApp());
 }
-TODO: add api code for google maps 
-AIzaSyCMuYRIgQOKU8JERLp7GXz1wAsO3t1J0ag
+//TODO: add api code for google maps 
+//AIzaSyCMuYRIgQOKU8JERLp7GXz1wAsO3t1J0ag
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
