@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'styles.dart'; // Import the styles
+import 'styles.dart';
+import 'fonts.dart'; // Import the styles
 
 class WelcomeScreen extends StatelessWidget {
   final Function(BuildContext) navigateToCreateProfile;
@@ -18,14 +18,12 @@ class WelcomeScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center, // Center elements horizontally
+          crossAxisAlignment:
+              CrossAxisAlignment.center, // Center elements horizontally
           children: [
             Text(
               'Welcome to',
-              style: GoogleFonts.lato(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: AppFonts.headline2,
             ),
             const SizedBox(height: 10),
             SizedBox(
@@ -34,20 +32,21 @@ class WelcomeScreen extends StatelessWidget {
               child: Image.asset('assets/vectors/snatalabb_logo_1.png'),
             ),
             const SizedBox(height: 10),
-            const Text(
+            Text(
               'S N A T A L A B B !',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
+              style: AppFonts.headline1,
             ),
             const Spacer(), // This will push the button to the bottom
             Padding(
-              padding: const EdgeInsets.only(bottom: 40.0), // Add padding if needed
+              padding:
+                  const EdgeInsets.only(bottom: 40.0), // Add padding if needed
               child: ElevatedButton(
                 onPressed: () => navigateToCreateProfile(context),
                 style: AppStyles.elevatedButtonStyle, // Use the custom style
-                child: const Text('Create Profile'),
+                child: Text(
+                  'Create Profile',
+                  style: AppFonts.button,
+                ),
               ),
             ),
           ],

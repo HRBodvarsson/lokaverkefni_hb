@@ -5,11 +5,11 @@ import 'profile_screen.dart';
 import 'settings_screen.dart';
 import 'main_menu_screen.dart';
 import 'ui/custom_navbar.dart';
+import 'fonts.dart';
 
 void main() {
   runApp(const MyApp());
 }
-//AIzaSyCMuYRIgQOKU8JERLp7GXz1wAsO3t1J0ag
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,6 +20,12 @@ class MyApp extends StatelessWidget {
       title: 'Snatalabb',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        textTheme: TextTheme(
+          displayLarge: AppFonts.headline1,
+          displayMedium: AppFonts.headline2,
+          bodyLarge: AppFonts.bodyText1,
+          labelLarge: AppFonts.button,
+        ),
       ),
       home: const MainScreen(),
     );

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lokaverkefni_hb/image_handler.dart';
 import 'package:csv/csv.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'fonts.dart';
 import 'main_menu_screen.dart';
 
 class CreateProfileScreen extends StatefulWidget {
@@ -38,7 +38,8 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
   Future<void> _loadCsvData() async {
     try {
       final rawData = await rootBundle.loadString('assets/types_of_dogs.csv');
-      List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
+      List<List<dynamic>> listData =
+          const CsvToListConverter().convert(rawData);
       setState(() {
         _dogTypes = listData.map((row) => row[0].toString()).toList();
       });
@@ -84,7 +85,10 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Profile'),
+        title: Text(
+          'Submit Profile',
+          style: AppFonts.button,
+        ),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -162,7 +166,7 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
               ),
               ElevatedButton(
                 onPressed: _submitProfile,
-                child: const Text('Submit Profile'),
+                child: Text('Submit Profile', style: AppFonts.button,),
               ),
             ],
           ),
