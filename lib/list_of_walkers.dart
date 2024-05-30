@@ -56,10 +56,31 @@ class ListOfWalkersState extends State<ListOfWalkers> {
         itemCount: _walkers.length,
         itemBuilder: (context, index) {
           final walker = _walkers[index];
-          return ListTile(
-            title: Text(walker['name']!),
-            subtitle: Text(walker['description']!),
+          return GestureDetector(
             onTap: () => _navigateToWalkerProfile(context, walker['id']!, walker['name']!),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: Colors.grey.shade300, width: 1.0),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    walker['name']!,
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    walker['description']!,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ),
           );
         },
       ),

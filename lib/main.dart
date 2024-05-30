@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
           displayLarge: AppFonts.headline1,
           displayMedium: AppFonts.headline2,
           bodyLarge: AppFonts.bodyText1,
+          bodyMedium: AppFonts.bodyText2,
           labelLarge: AppFonts.button,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(

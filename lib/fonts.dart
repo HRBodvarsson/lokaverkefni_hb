@@ -17,9 +17,15 @@ class AppFonts {
     fontWeight: FontWeight.w400,
   );
 
+  static TextStyle bodyText2 = GoogleFonts.abhayaLibre(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+  );
+
   static TextStyle button = GoogleFonts.lato(
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: const Color.fromARGB(255, 255, 255, 255), // Default button text color
   );
+
 }
