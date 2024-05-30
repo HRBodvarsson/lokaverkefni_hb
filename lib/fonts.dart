@@ -12,6 +12,11 @@ class AppFonts {
     fontWeight: FontWeight.bold,
   );
 
+  static TextStyle headline3 = GoogleFonts.lato(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
+
   static TextStyle bodyText1 = GoogleFonts.abhayaLibre(
     fontSize: 20,
     fontWeight: FontWeight.w400,

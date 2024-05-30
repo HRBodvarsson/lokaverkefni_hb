@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
           displayLarge: AppFonts.headline1,
           displayMedium: AppFonts.headline2,
+          displaySmall: AppFonts.headline3,
           bodyLarge: AppFonts.bodyText1,
           bodyMedium: AppFonts.bodyText2,
           labelLarge: AppFonts.button,

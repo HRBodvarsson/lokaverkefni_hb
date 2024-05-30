@@ -1,2 +1,2 @@
-id;name;description;Age;experience_years;cost_hour;km_hour;rating;total_walks
-112;Jóna;Jóna elskar hunda og elskar að fara í labbitúr. Þess vegna er Jóna hundalabbari. Það er ekkert leyndarmál að henni Jónu finnst kjörís betri en emmesís en hún reynir þó að halda því fyrir sjálfa sig.;29;3;2500;7;4.2;300
+id;name;description;Age;experience_years;cost_hour;km_hour;rating;total_walks;photo
+112;Jóna;Jóna elskar hunda og elskar að fara í labbitúr. Þess vegna er Jóna hundalabbari. Það er ekkert leyndarmál að henni Jónu finnst kjörís betri en emmesís en hún reynir þó að halda því fyrir sjálfa sig.;29;3;2500;7;4.2;300;Images/jona.jpg

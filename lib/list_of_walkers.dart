@@ -29,13 +29,13 @@ class ListOfWalkersState extends State<ListOfWalkers> {
             'id': row[0].toString(),
             'name': row[1].toString(),
             'description': row[2].toString(),
-            'photo': row[3].toString(),
+            'photo': 'assets/${row[3].toString().trim()}', // Correct the path
           };
         }).toList();
-        print('Walkers loaded: $_walkers'); // Debug print
+        // Debug print
       });
     } catch (e) {
-      print('Error loading CSV data: $e'); // Debug print
+      // Debug print
     }
   }
 
@@ -43,7 +43,7 @@ class ListOfWalkersState extends State<ListOfWalkers> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WalkerProfileScreen(walkerId: walkerId, walkerName: walkerName),
+        builder: (context) => WalkerProfileScreen(walkerId: walkerId),
       ),
     );
   }
@@ -55,7 +55,7 @@ class ListOfWalkersState extends State<ListOfWalkers> {
         title: const Text('Dog Walkers'),
       ),
       body: _walkers.isEmpty
-          ? Center(child: const Text('No walkers available')) // Show message if no walkers
+          ? const Center(child: Text('No walkers available')) // Show message if no walkers
           : ListView.builder(
               itemCount: _walkers.length,
               itemBuilder: (context, index) {
@@ -65,33 +65,35 @@ class ListOfWalkersState extends State<ListOfWalkers> {
                   child: Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(color: Colors.grey.shade300, width: 1.0),
+                        bottom: BorderSide(color: Color.fromARGB(255, 96, 96, 96), width: 1.0),
                       ),
                     ),
                     child: Row(
                       children: [
                         Image.asset(
-                          'assets/images/${walker['photo']!}',
+                          walker['photo']!,
                           width: 60,
                           height: 60,
                           fit: BoxFit.cover,
                         ),
                         const SizedBox(width: 16.0),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              walker['name']!,
-                              style: Theme.of(context).textTheme.displayMedium,
-                            ),
-                            const SizedBox(height: 8.0),
-                            Text(
-                              walker['description']!,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                walker['name']!,
+                                style: Theme.of(context).textTheme.displayMedium,
+                              ),
+                              const SizedBox(height: 8.0),
+                              Text(
+                                walker['description']!,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

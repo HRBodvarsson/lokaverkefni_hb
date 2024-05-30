@@ -33,7 +33,6 @@ class MainMenuScreenState extends State<MainMenuScreen> {
 
   void _bookSitter() {
     // Implement the functionality for booking a sitter
-    print("Book a sitter pressed");
   }
 
   @override

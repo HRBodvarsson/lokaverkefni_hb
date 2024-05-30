@@ -58,8 +58,11 @@ flutter:
     - assets/sitter_212.csv
     - assets/sitter_213.csv
     - assets/images/gudm.jpg
+    - assets/images/gudm-portrait.jpg
     - assets/images/jona.jpg
+    - assets/images/jona-portrait.jpg
     - assets/images/benedikta.jpg
+    - assets/images/benedikta-portrait.jpg
     - assets/images/sigga.jpg
     - assets/images/salli.jpg
     - assets/images/tindur.jpg

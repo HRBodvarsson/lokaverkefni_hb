@@ -14,7 +14,6 @@ class CreateProfileScreen extends StatefulWidget {
 
 class CreateProfileScreenState extends State<CreateProfileScreen> {
   File? _image;
-  String? _errorMessage;
   String? _petName;
   String? _ownerName;
   String? _selectedDogType;
@@ -44,7 +43,6 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
       });
     } catch (e) {
       setState(() {
-        _errorMessage = e.toString();
       });
     }
   }
@@ -54,11 +52,10 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
       final file = await ImageHandler.pickImage();
       setState(() {
         _image = file;
-        _errorMessage = null; // Clear any previous error message
+// Clear any previous error message
       });
     } catch (e) {
       setState(() {
-        _errorMessage = e.toString();
       });
     }
   }
