@@ -29,11 +29,11 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>$(FLUTTER_BUILD_NAME)</string>
+    <string>1.0.0</string> <!-- Replace with your app's version number -->
     <key>CFBundleSignature</key>
-    <string>????</string>
+    <string>????</string> <!-- Leave as is, or change based on specific requirements -->
     <key>CFBundleVersion</key>
-    <string>$(FLUTTER_BUILD_NUMBER)</string>
+    <string>1</string> <!-- Replace with your app's build number -->
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>UILaunchStoryboardName</key>
