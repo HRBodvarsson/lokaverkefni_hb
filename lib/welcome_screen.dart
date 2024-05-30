@@ -28,7 +28,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Container(
+            SizedBox(
               width: 150,
               height: 150,
               child: Image.asset('assets/vectors/snatalabb_logo_1.png'),
