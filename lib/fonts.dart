@@ -12,8 +12,9 @@ class AppFonts {
     fontWeight: FontWeight.bold,
   );
 
-  static TextStyle bodyText1 = GoogleFonts.lato(
-    fontSize: 16,
+  static TextStyle bodyText1 = GoogleFonts.abhayaLibre(
+    fontSize: 20,
+    fontWeight: FontWeight.w400,
   );
 
   static TextStyle button = GoogleFonts.lato(

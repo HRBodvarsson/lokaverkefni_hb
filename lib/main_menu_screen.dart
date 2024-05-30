@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'ui/custom_navbar.dart';
-import 'welcome_screen.dart';
-import 'profile_screen.dart';
-import 'settings_screen.dart';
 
 class MainMenuScreen extends StatefulWidget {
   final Map<String, dynamic> profileData;
@@ -22,11 +19,39 @@ class MainMenuScreenState extends State<MainMenuScreen> {
     });
   }
 
+  void _bookWalk() {
+    // Implement the functionality for booking a walk
+    print("Book a walk pressed");
+  }
+
+  void _bookSitter() {
+    // Implement the functionality for booking a sitter
+    print("Book a sitter pressed");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text("Map has been removed"),
+      appBar: AppBar(
+        title: Text("Main Menu"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: _bookWalk,
+              child: Text('Book a walk'),
+            ),
+            const SizedBox(height: 20), // Spacing between the buttons
+            ElevatedButton(
+              onPressed: _bookSitter,
+              child: Text('Book a sitter'),
+            ),
+            const SizedBox(height: 20), // Spacing between the buttons
+            const Text("Map has been removed"),
+          ],
+        ),
       ),
       bottomNavigationBar: CustomNavBar(
         currentIndex: _currentIndex,

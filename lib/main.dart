@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'welcome_screen.dart';
 import 'create_profile_screen.dart';
 import 'profile_screen.dart';
 import 'settings_screen.dart';
-import 'main_menu_screen.dart';
+
 import 'ui/custom_navbar.dart';
 import 'fonts.dart';
+import 'styles.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +27,9 @@ class MyApp extends StatelessWidget {
           displayMedium: AppFonts.headline2,
           bodyLarge: AppFonts.bodyText1,
           labelLarge: AppFonts.button,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: AppStyles.elevatedButtonStyle,
         ),
       ),
       home: const MainScreen(),

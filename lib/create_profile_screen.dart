@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lokaverkefni_hb/image_handler.dart';
 import 'package:csv/csv.dart';
-import 'fonts.dart';
 import 'main_menu_screen.dart';
 
 class CreateProfileScreen extends StatefulWidget {
@@ -87,7 +86,7 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
       appBar: AppBar(
         title: Text(
           'Submit Profile',
-          style: AppFonts.button,
+          style: Theme.of(context).textTheme.labelLarge,
         ),
       ),
       body: Center(
@@ -96,7 +95,10 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _image == null
-                  ? const Text('No image selected.')
+                  ? Text(
+                      'No image selected.',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    )
                   : Image.file(
                       _image!,
                       height: 200,
@@ -109,7 +111,10 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  decoration: const InputDecoration(labelText: 'Pet\'s Name'),
+                  decoration: InputDecoration(
+                    labelText: 'Pet\'s Name',
+                    hintStyle: Theme.of(context).textTheme.bodyLarge,
+                  ),
                   onChanged: (value) {
                     setState(() {
                       _petName = value;
@@ -120,7 +125,10 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  decoration: const InputDecoration(labelText: 'Owner\'s Name'),
+                  decoration: InputDecoration(
+                    labelText: 'Owner\'s Name',
+                    hintStyle: Theme.of(context).textTheme.bodyLarge,
+                  ),
                   onChanged: (value) {
                     setState(() {
                       _ownerName = value;
@@ -131,7 +139,10 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: DropdownButton<String>(
-                  hint: const Text('Choose type of dog'),
+                  hint: Text(
+                    'Choose type of dog',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                   value: _selectedDogType,
                   items: _dogTypes.map((String type) {
                     return DropdownMenuItem<String>(
@@ -149,7 +160,7 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ExpansionTile(
-                  title: const Text('Characteristics'),
+                  title: Text('Characteristics', style: Theme.of(context).textTheme.bodyLarge),
                   children: _characteristicOptions.map((String option) {
                     int index = _characteristicOptions.indexOf(option);
                     return CheckboxListTile(
@@ -166,7 +177,10 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
               ),
               ElevatedButton(
                 onPressed: _submitProfile,
-                child: Text('Submit Profile', style: AppFonts.button,),
+                child: Text(
+                  'Submit Profile',
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
               ),
             ],
           ),
