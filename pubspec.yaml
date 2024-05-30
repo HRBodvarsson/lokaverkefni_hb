@@ -57,7 +57,12 @@ flutter:
     - assets/sitter_211.csv
     - assets/sitter_212.csv
     - assets/sitter_213.csv
-    - assets/images/gudmhundarganga_profile.jpg
+    - assets/images/gudm.jpg
+    - assets/images/jona.jpg
+    - assets/images/benedikta.jpg
+    - assets/images/sigga.jpg
+    - assets/images/salli.jpg
+    - assets/images/tindur.jpg
     - assets/vectors/snatalabb_logo_1.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -22,18 +22,20 @@ class ListOfWalkersState extends State<ListOfWalkers> {
   Future<void> _loadCsvData() async {
     try {
       final rawData = await rootBundle.loadString('assets/dog_walkers.csv');
-      List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
+      List<List<dynamic>> listData = const CsvToListConverter(eol: '\n', fieldDelimiter: ';').convert(rawData);
       setState(() {
         _walkers = listData.skip(1).map((row) {
           return {
             'id': row[0].toString(),
             'name': row[1].toString(),
             'description': row[2].toString(),
+            'photo': row[3].toString(),
           };
         }).toList();
+        print('Walkers loaded: $_walkers'); // Debug print
       });
     } catch (e) {
-      print('Error loading CSV data: $e');
+      print('Error loading CSV data: $e'); // Debug print
     }
   }
 
@@ -52,38 +54,51 @@ class ListOfWalkersState extends State<ListOfWalkers> {
       appBar: AppBar(
         title: const Text('Dog Walkers'),
       ),
-      body: ListView.builder(
-        itemCount: _walkers.length,
-        itemBuilder: (context, index) {
-          final walker = _walkers[index];
-          return GestureDetector(
-            onTap: () => _navigateToWalkerProfile(context, walker['id']!, walker['name']!),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey.shade300, width: 1.0),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    walker['name']!,
-                    style: Theme.of(context).textTheme.displayMedium,
+      body: _walkers.isEmpty
+          ? Center(child: const Text('No walkers available')) // Show message if no walkers
+          : ListView.builder(
+              itemCount: _walkers.length,
+              itemBuilder: (context, index) {
+                final walker = _walkers[index];
+                return GestureDetector(
+                  onTap: () => _navigateToWalkerProfile(context, walker['id']!, walker['name']!),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey.shade300, width: 1.0),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/${walker['photo']!}',
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                        ),
+                        const SizedBox(width: 16.0),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              walker['name']!,
+                              style: Theme.of(context).textTheme.displayMedium,
+                            ),
+                            const SizedBox(height: 8.0),
+                            Text(
+                              walker['description']!,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 8.0),
-                  Text(
-                    walker['description']!,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

@@ -1,4 +1,4 @@
-id;name;description
-111;Guðmhundarganga;Experienced dog walker with 5 years of experience.
-112;Jóna;Professional dog walker and pet sitter.
-113;Benedikta;Passionate dog lover and walker.
+id;name;description;photo
+111;Guðmhundarganga;Experienced dog walker with 5 years of experience.;gudm.jpg
+112;Jóna;Professional dog walker and pet sitter.;jona.jpg
+113;Benedikta;Passionate dog lover and walker.;benedikta.jpg
