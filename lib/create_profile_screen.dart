@@ -10,10 +10,10 @@ class CreateProfileScreen extends StatefulWidget {
   const CreateProfileScreen({super.key});
 
   @override
-  _CreateProfileScreenState createState() => _CreateProfileScreenState();
+  CreateProfileScreenState createState() => CreateProfileScreenState();
 }
 
-class _CreateProfileScreenState extends State<CreateProfileScreen> {
+class CreateProfileScreenState extends State<CreateProfileScreen> {
   File? _image;
   String? _errorMessage;
   String? _petName;

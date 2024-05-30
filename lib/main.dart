@@ -9,7 +9,6 @@ import 'ui/custom_navbar.dart';
 void main() {
   runApp(const MyApp());
 }
-//TODO: add api code for google maps 
 //AIzaSyCMuYRIgQOKU8JERLp7GXz1wAsO3t1J0ag
 
 class MyApp extends StatelessWidget {
@@ -31,10 +30,10 @@ class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  MainScreenState createState() => MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   Map<String, dynamic> _profileData = {};
 
