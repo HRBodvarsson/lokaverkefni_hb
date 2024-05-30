@@ -23,7 +23,7 @@ class MainMenuScreenState extends State<MainMenuScreen> {
   void _navigateToWalkers(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ListOfWalkers()),
+      MaterialPageRoute(builder: (context) => const ListOfWalkers()),
     );
   }
 
@@ -40,7 +40,7 @@ class MainMenuScreenState extends State<MainMenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Main Menu"),
+        title: const Text("Main Menu"),
       ),
       body: Center(
         child: Column(
@@ -48,15 +48,13 @@ class MainMenuScreenState extends State<MainMenuScreen> {
           children: [
             ElevatedButton(
               onPressed: _bookWalk,
-              child: Text('Book a walk'),
+              child: const Text('Book a walk'),
             ),
             const SizedBox(height: 20), // Spacing between the buttons
             ElevatedButton(
               onPressed: _bookSitter,
-              child: Text('Book a sitter'),
+              child: const Text('Book a sitter'),
             ),
-            const SizedBox(height: 20), // Spacing between the buttons
-            const Text("Map has been removed"),
           ],
         ),
       ),

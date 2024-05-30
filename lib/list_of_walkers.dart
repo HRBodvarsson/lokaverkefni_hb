@@ -4,11 +4,13 @@ import 'package:csv/csv.dart';
 import 'walker_profile_screen.dart';
 
 class ListOfWalkers extends StatefulWidget {
+  const ListOfWalkers({super.key});
+
   @override
-  _ListOfWalkersState createState() => _ListOfWalkersState();
+  ListOfWalkersState createState() => ListOfWalkersState();
 }
 
-class _ListOfWalkersState extends State<ListOfWalkers> {
+class ListOfWalkersState extends State<ListOfWalkers> {
   List<Map<String, String>> _walkers = [];
 
   @override
@@ -48,7 +50,7 @@ class _ListOfWalkersState extends State<ListOfWalkers> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dog Walkers'),
+        title: const Text('Dog Walkers'),
       ),
       body: ListView.builder(
         itemCount: _walkers.length,

@@ -6,13 +6,13 @@ class WalkerProfileScreen extends StatefulWidget {
   final String walkerId;
   final String walkerName;
 
-  const WalkerProfileScreen({required this.walkerId, required this.walkerName, Key? key}) : super(key: key);
+  const WalkerProfileScreen({required this.walkerId, required this.walkerName, super.key});
 
   @override
-  _WalkerProfileScreenState createState() => _WalkerProfileScreenState();
+  WalkerProfileScreenState createState() => WalkerProfileScreenState();
 }
 
-class _WalkerProfileScreenState extends State<WalkerProfileScreen> {
+class WalkerProfileScreenState extends State<WalkerProfileScreen> {
   List<Map<String, String>> _profileDetails = [];
 
   @override
@@ -45,7 +45,7 @@ class _WalkerProfileScreenState extends State<WalkerProfileScreen> {
         title: Text(widget.walkerName),
       ),
       body: _profileDetails.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: _profileDetails.length,
               itemBuilder: (context, index) {
