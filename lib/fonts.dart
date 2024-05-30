@@ -19,6 +19,6 @@ class AppFonts {
   static TextStyle button = GoogleFonts.lato(
     fontSize: 18,
     fontWeight: FontWeight.w600,
-    color: Colors.black, // Default button text color
+    color: const Color.fromARGB(255, 255, 255, 255), // Default button text color
   );
 }
