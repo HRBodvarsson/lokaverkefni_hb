@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'database_helper.dart'; // Import the database helper
 
 import 'welcome_screen.dart';
 import 'create_profile_screen.dart';
@@ -49,6 +50,7 @@ class MainScreen extends StatefulWidget {
 class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   Map<String, dynamic> _profileData = {};
+  final dbHelper = DatabaseHelper.instance; // Database helper instance
 
   final List<Widget> _screens = [];
 
@@ -60,6 +62,7 @@ class MainScreenState extends State<MainScreen> {
       ProfileScreen(profileData: _profileData),
       const SettingsScreen(),
     ]);
+    _loadProfileData(); // Load profile data from database on init
   }
 
   void _onTap(int index) {
@@ -77,6 +80,21 @@ class MainScreenState extends State<MainScreen> {
     if (result != null) {
       setState(() {
         _profileData = result;
+        _screens[1] = ProfileScreen(profileData: _profileData);
+      });
+      _saveProfileData(result); // Save the profile data to the database
+    }
+  }
+
+  void _saveProfileData(Map<String, dynamic> data) async {
+    await dbHelper.insert(data);
+  }
+
+  void _loadProfileData() async {
+    final allRows = await dbHelper.queryAll();
+    if (allRows.isNotEmpty) {
+      setState(() {
+        _profileData = allRows.first;
         _screens[1] = ProfileScreen(profileData: _profileData);
       });
     }
