@@ -24,11 +24,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  table_calendar: ^3.0.5  
   provider: ^6.0.1
   csv: ^6.0.0
   image_picker: ^1.1.1
   google_fonts: ^6.2.1
   location: ^6.0.2
+  
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +52,7 @@ flutter:
   assets:
     - assets/types_of_dogs.csv
     - assets/dog_walkers.csv
+    - assets/availability.csv
     - assets/profiles/walker_111.csv
     - assets/profiles/walker_112.csv
     - assets/profiles/walker_113.csv

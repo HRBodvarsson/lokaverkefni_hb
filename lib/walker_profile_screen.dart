@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:csv/csv.dart';
+import 'calendar_screen.dart';
 
 class WalkerProfileScreen extends StatefulWidget {
   final String walkerId;
@@ -144,7 +145,12 @@ class WalkerProfileScreenState extends State<WalkerProfileScreen> {
               padding: const EdgeInsets.all(16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  // Handle see availability action
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CalendarScreen(walkerId: widget.walkerId),
+                    ),
+                  );
                 },
                 child: const Text('See Availability'),
               ),
