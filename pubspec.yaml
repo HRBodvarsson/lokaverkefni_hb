@@ -50,13 +50,13 @@ flutter:
   assets:
     - assets/types_of_dogs.csv
     - assets/dog_walkers.csv
-    - assets/walker_111.csv
-    - assets/walker_112.csv
-    - assets/walker_113.csv
+    - assets/profiles/walker_111.csv
+    - assets/profiles/walker_112.csv
+    - assets/profiles/walker_113.csv
     - assets/dog_sitters.csv
-    - assets/sitter_211.csv
-    - assets/sitter_212.csv
-    - assets/sitter_213.csv
+    - assets/profiles/sitter_211.csv
+    - assets/profiles/sitter_212.csv
+    - assets/profiles/sitter_213.csv
     - assets/images/gudm.jpg
     - assets/images/gudm-portrait.jpg
     - assets/images/jona.jpg

@@ -38,7 +38,7 @@ class WalkerProfileScreenState extends State<WalkerProfileScreen> {
           'km_hour': listData[1][6].toString(),
           'rating': listData[1][7].toString(),
           'total_walks': listData[1][8].toString(),
-          'photo': 'assets/${listData[1][9].toString().trim()}',
+          'photo': 'assets/images/${listData[1][9].toString().trim()}',
         };
       });
     } catch (e) {
@@ -60,77 +60,97 @@ class WalkerProfileScreenState extends State<WalkerProfileScreen> {
     }
 
     return Scaffold(
-      body: Column(
-        children: [
-          // Profile Image with X button and verified label
-          Stack(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.35,
-                width: double.infinity,
-                child: Image.asset(
-                  walkerProfile!['photo']!,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 40,
-                left: 20,
-                child: IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              Positioned(
-                top: 40,
-                right: 20,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Colors.green,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Row(
-                    children: [
-                      Icon(Icons.check, color: Colors.white, size: 16),
-                      SizedBox(width: 5),
-                      Text(
-                        'verified',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          // Profile Name
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              walkerProfile!['name']!,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-          ),
-          // Information Boxes
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // Profile Image with X button and verified label
+            Stack(
               children: [
-                _buildInfoBox('${walkerProfile!['cost_hour']} €/hour'),
-                _buildVerticalDivider(),
-                _buildInfoBox('${walkerProfile!['km_hour']} km/hour'),
-                _buildVerticalDivider(),
-                _buildInfoBox('${walkerProfile!['rating']}', icon: Icons.star),
-                _buildVerticalDivider(),
-                _buildInfoBox('${walkerProfile!['total_walks']} walks'),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  width: double.infinity,
+                  child: Image.asset(
+                    walkerProfile!['photo']!,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  top: 40,
+                  left: 20,
+                  child: IconButton(
+                    icon: const Icon(Icons.close, color: Colors.white),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+                Positioned(
+                  top: 40,
+                  right: 20,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Row(
+                      children: [
+                        Icon(Icons.check, color: Colors.white, size: 16),
+                        SizedBox(width: 5),
+                        Text(
+                          'verified',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
+            // Profile Name
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                walkerProfile!['name']!,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+            ),
+            // Information Boxes
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildInfoBox('${walkerProfile!['cost_hour']} €/hour'),
+                  _buildVerticalDivider(),
+                  _buildInfoBox('${walkerProfile!['km_hour']} km/hour'),
+                  _buildVerticalDivider(),
+                  _buildInfoBox('${walkerProfile!['rating']}', icon: Icons.star),
+                  _buildVerticalDivider(),
+                  _buildInfoBox('${walkerProfile!['total_walks']} walks'),
+                ],
+              ),
+            ),
+            // Description
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                walkerProfile!['description']!,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+            // Availability Button
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Handle see availability action
+                },
+                child: const Text('See Availability'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -144,9 +164,12 @@ class WalkerProfileScreenState extends State<WalkerProfileScreen> {
             Icon(icon, color: Colors.grey),
             const SizedBox(width: 5),
           ],
-          Text(
-            text,
-            style: const TextStyle(color: Colors.grey),
+          Flexible(
+            child: Text(
+              text,
+              style: const TextStyle(color: Colors.grey),
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
