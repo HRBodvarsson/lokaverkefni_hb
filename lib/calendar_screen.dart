@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'database_helper.dart';
 
 class CalendarScreen extends StatefulWidget {
   final String profileId;
@@ -15,10 +16,8 @@ class CalendarScreenState extends State<CalendarScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  DateTime? _pickupDate;
-  DateTime? _dropoffDate;
-  String? _selectedPickupTime;
-  String? _selectedDropoffTime;
+  String? _selectedHour;
+  final dbHelper = DatabaseHelper.instance;
   Map<DateTime, List<String>> _availability = {};
 
   @override
@@ -28,7 +27,9 @@ class CalendarScreenState extends State<CalendarScreen> {
   }
 
   Future<void> _loadAvailabilityData() async {
+    // Load availability data from database or mock data
     // For simplicity, assuming default availability from 8:00 to 22:00
+    final allRows = await dbHelper.queryAll();
     setState(() {
       _availability = {
         for (var i = 0; i < 30; i++)
@@ -45,52 +46,44 @@ class CalendarScreenState extends State<CalendarScreen> {
     return _availability[day] ?? [];
   }
 
-  void _bookTime(String time) {
-    if (widget.isWalker) {
-      // Handle booking for walker
-      setState(() {
-        _selectedPickupTime = time;
-      });
-      _showConfirmationDialog();
-    } else {
-      // Handle booking for sitter
-      if (_pickupDate == null) {
-        setState(() {
-          _pickupDate = _selectedDay;
-          _selectedPickupTime = time;
-        });
-      } else if (_dropoffDate == null) {
-        setState(() {
-          _dropoffDate = _selectedDay;
-          _selectedDropoffTime = time;
-        });
-        _showConfirmationDialog();
-      }
-    }
-  }
+  void _submitBooking() {
+    if (_selectedDay != null && _selectedHour != null) {
+      // Save the booking to the database or perform desired action
+      final bookingData = {
+        'profileId': widget.profileId,
+        'isWalker': widget.isWalker,
+        'date': _selectedDay!.toIso8601String(),
+        'hour': _selectedHour!,
+      };
 
-  void _showConfirmationDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Booking Confirmation'),
-          content: widget.isWalker
-              ? Text('You have booked a walk on $_selectedDay at $_selectedPickupTime.')
-              : Text(
-                  'You have booked a sitter from $_pickupDate at $_selectedPickupTime to $_dropoffDate at $_selectedDropoffTime.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop(); // Close the CalendarScreen
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
+      // Save to database or send to server
+      dbHelper.insert(bookingData);
+
+      // Show confirmation
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Booking Confirmation'),
+            content: Text('You have booked on $_selectedDay at $_selectedHour.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(); // Close the CalendarScreen
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please select a date and hour')),
+      );
+    }
   }
 
   @override
@@ -125,20 +118,39 @@ class CalendarScreenState extends State<CalendarScreen> {
             eventLoader: _getEventsForDay,
           ),
           const SizedBox(height: 8.0),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _getEventsForDay(_selectedDay ?? _focusedDay).length,
-              itemBuilder: (context, index) {
-                final event = _getEventsForDay(_selectedDay ?? _focusedDay)[index];
-                return ListTile(
-                  title: Text(event),
-                  onTap: () {
-                    _bookTime(event);
-                  },
-                );
-              },
+          if (_selectedDay != null)
+            Expanded(
+              child: Column(
+                children: [
+                  Text(
+                    'Available Hours for ${_selectedDay!.toLocal()}'.split(' ')[0],
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
+                  const SizedBox(height: 8.0),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: _getEventsForDay(_selectedDay!).length,
+                      itemBuilder: (context, index) {
+                        final hour = _getEventsForDay(_selectedDay!)[index];
+                        return ListTile(
+                          title: Text(hour),
+                          selected: _selectedHour == hour,
+                          onTap: () {
+                            setState(() {
+                              _selectedHour = hour;
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: _submitBooking,
+                    child: const Text('Submit Booking'),
+                  ),
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );

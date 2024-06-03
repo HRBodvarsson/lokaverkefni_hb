@@ -20,8 +20,9 @@ class DatabaseHelper {
     String path = join(databasesPath, "example.db");
     return await openDatabase(
       path,
-      version: 1,
+      version: 2, // Updated version to 2
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
     );
   }
 
@@ -29,6 +30,29 @@ class DatabaseHelper {
     await db.execute(
       "CREATE TABLE example(id INTEGER PRIMARY KEY, name TEXT)",
     );
+    await db.execute(
+      "CREATE TABLE bookings("
+      "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+      "profileId TEXT, "
+      "role TEXT, "
+      "date TEXT, "
+      "hour TEXT"
+      ")",
+    );
+  }
+
+  Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute(
+        "CREATE TABLE bookings("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "profileId TEXT, "
+        "role TEXT, "
+        "date TEXT, "
+        "hour TEXT"
+        ")",
+      );
+    }
   }
 
   Future<int> insert(Map<String, dynamic> row) async {
@@ -36,9 +60,19 @@ class DatabaseHelper {
     return await db.insert('example', row);
   }
 
+  Future<int> insertBooking(Map<String, dynamic> row) async {
+    Database db = await instance.database;
+    return await db.insert('bookings', row);
+  }
+
   Future<List<Map<String, dynamic>>> queryAll() async {
     Database db = await instance.database;
     return await db.query('example');
+  }
+
+  Future<List<Map<String, dynamic>>> queryAllBookings() async {
+    Database db = await instance.database;
+    return await db.query('bookings');
   }
 
   Future<int> update(Map<String, dynamic> row) async {
