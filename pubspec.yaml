@@ -29,9 +29,9 @@ dependencies:
   csv: ^6.0.0
   image_picker: ^1.1.1
   google_fonts: ^6.2.1
-  location: ^6.0.2
   sqflite: any
   path_provider: any
+  share_plus: ^6.3.0
   
 
 dev_dependencies:

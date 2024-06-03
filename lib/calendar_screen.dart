@@ -7,10 +7,10 @@ class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key, required this.walkerId});
 
   @override
-  _CalendarScreenState createState() => _CalendarScreenState();
+  CalendarScreenState createState() => CalendarScreenState();
 }
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class CalendarScreenState extends State<CalendarScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -50,7 +50,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         children: [
           TableCalendar(
             firstDay: DateTime.now(),
-            lastDay: DateTime.now().add(Duration(days: 365)),
+            lastDay: DateTime.now().add(const Duration(days: 365)),
             focusedDay: _focusedDay,
             calendarFormat: _calendarFormat,
             selectedDayPredicate: (day) {

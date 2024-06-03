@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'database_helper.dart'; // Import the database helper
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'dart:io';
 
 import 'welcome_screen.dart';
 import 'create_profile_screen.dart';
@@ -100,9 +103,33 @@ class MainScreenState extends State<MainScreen> {
     }
   }
 
+  Future<void> _shareDatabase() async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final path = '${directory.path}/example.db';
+      final file = File(path);
+      if (await file.exists()) {
+        Share.shareFiles([path], text: 'Database file');
+      } else {
+        print('Database file does not exist');
+      }
+    } catch (e) {
+      print('Error sharing database file: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Main Screen'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.share),
+            onPressed: _shareDatabase,
+          ),
+        ],
+      ),
       body: _screens[_currentIndex],
       bottomNavigationBar: _currentIndex == 0
           ? null
