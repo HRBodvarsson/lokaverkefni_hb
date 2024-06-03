@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'database_helper.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:io';
+import 'package:path/path.dart';  // Import the path package
 
 import 'welcome_screen.dart';
 import 'create_profile_screen.dart';
@@ -105,8 +106,8 @@ class MainScreenState extends State<MainScreen> {
 
   Future<void> _shareDatabase() async {
     try {
-      final directory = await getApplicationDocumentsDirectory();
-      final path = '${directory.path}/example.db';
+      String databasesPath = await getDatabasesPath();
+      String path = join(databasesPath, 'example.db');
       final file = File(path);
       if (await file.exists()) {
         Share.shareXFiles([XFile(path)], text: 'Database file');
