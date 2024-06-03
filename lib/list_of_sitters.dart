@@ -29,7 +29,7 @@ class ListOfSittersState extends State<ListOfSitters> {
             'id': row[0].toString(),
             'name': row[1].toString(),
             'description': row[2].toString(),
-            'photo': 'assets/${row[3].toString().trim()}', // Correct the path
+            'photo': 'assets/images/${row[3].toString().trim()}', // Correct the path
           };
         }).toList();
         // Debug print
