@@ -17,6 +17,7 @@ class SitterProfileScreen extends StatefulWidget {
 
 class SitterProfileScreenState extends State<SitterProfileScreen> {
   Map<String, String>? sitterProfile;
+  bool _showFullDescription = false;
 
   @override
   void initState() {
@@ -66,7 +67,7 @@ class SitterProfileScreenState extends State<SitterProfileScreen> {
             // Profile Image with X button and verified label
             Stack(
               children: [
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height * 0.35,
                   width: double.infinity,
                   child: Image.asset(
@@ -134,9 +135,25 @@ class SitterProfileScreenState extends State<SitterProfileScreen> {
             // Description
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(
-                sitterProfile!['description']!,
-                style: Theme.of(context).textTheme.bodyMedium,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _showFullDescription
+                        ? sitterProfile!['description']!
+                        : '${sitterProfile!['description']!.substring(0, 25)}...',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  if (sitterProfile!['description']!.length > 25)
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _showFullDescription = !_showFullDescription;
+                        });
+                      },
+                      child: Text(_showFullDescription ? 'Show Less' : 'Show More'),
+                    ),
+                ],
               ),
             ),
             // Availability Button
