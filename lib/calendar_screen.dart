@@ -27,9 +27,7 @@ class CalendarScreenState extends State<CalendarScreen> {
   }
 
   Future<void> _loadAvailabilityData() async {
-    // Load availability data from database or mock data
     // For simplicity, assuming default availability from 8:00 to 22:00
-    final allRows = await dbHelper.queryAll();
     setState(() {
       _availability = {
         for (var i = 0; i < 30; i++)
@@ -46,43 +44,43 @@ class CalendarScreenState extends State<CalendarScreen> {
     return _availability[day] ?? [];
   }
 
-  void _submitBooking() {
+  void _submitBooking() async {
     if (_selectedDay != null && _selectedHour != null) {
-      // Save the booking to the database or perform desired action
       final bookingData = {
         'profileId': widget.profileId,
-        'isWalker': widget.isWalker,
+        'role': widget.isWalker ? 'walker' : 'sitter',
         'date': _selectedDay!.toIso8601String(),
         'hour': _selectedHour!,
       };
 
-      // Save to database or send to server
-      dbHelper.insert(bookingData);
+      await dbHelper.insertBooking(bookingData);
 
-      // Show confirmation
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('Booking Confirmation'),
-            content: Text('You have booked on $_selectedDay at $_selectedHour.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop(); // Close the CalendarScreen
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Booking Confirmation'),
+              content: Text('You have booked on ${_selectedDay!.toLocal()} at $_selectedHour.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(); // Close the CalendarScreen
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
     } else {
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a date and hour')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please select a date and hour')),
+        );
+      }
     }
   }
 
