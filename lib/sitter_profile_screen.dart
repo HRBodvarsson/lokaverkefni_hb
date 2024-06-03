@@ -147,7 +147,7 @@ class SitterProfileScreenState extends State<SitterProfileScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CalendarScreen(sitterId: widget.sitterId),
+                      builder: (context) => CalendarScreen(profileId: widget.sitterId, isWalker: false),
                     ),
                   );
                 },

@@ -148,7 +148,7 @@ class WalkerProfileScreenState extends State<WalkerProfileScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => CalendarScreen(profileId: widget.walkerId),
+                      builder: (context) => CalendarScreen(profileId: widget.walkerId, isWalker: true),
                     ),
                   );
                 },
