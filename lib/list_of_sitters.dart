@@ -29,7 +29,7 @@ class ListOfSittersState extends State<ListOfSitters> {
             'id': row[0].toString(),
             'name': row[1].toString(),
             'description': row[2].toString(),
-            'photo': 'assets/images/${row[3].toString().trim()}', // Correct the path
+            'photo': 'assets/images/${row[3].toString().trim()}',
           };
         }).toList();
         // Debug print
@@ -43,7 +43,7 @@ class ListOfSittersState extends State<ListOfSitters> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SitterProfileScreen(sitterId: sitterId), // Create a similar screen for sitters
+        builder: (context) => SitterProfileScreen(sitterId: sitterId),
       ),
     );
   }

@@ -2,11 +2,19 @@ import 'package:url_launcher/url_launcher.dart';
 
 class EmailSender {
   static Future<void> sendEmail(Map<String, dynamic> profileData, List<String> characteristicOptions) async {
+    final List<bool> characteristics = List<bool>.from(profileData['characteristics']);
+    String characteristicsString = characteristics
+        .asMap()
+        .entries
+        .where((entry) => entry.value)
+        .map((entry) => characteristicOptions[entry.key])
+        .join(', ');
+
     String emailBody = '''
 Pet's Name: ${profileData['petName']}
 Owner's Name: ${profileData['ownerName']}
 Type of Dog: ${profileData['selectedDogType']}
-Characteristics: ${profileData['characteristics'].asMap().entries.where((entry) => entry.value).map((entry) => characteristicOptions[entry.key]).join(', ')}
+Characteristics: $characteristicsString
 ''';
 
     final Uri emailLaunchUri = Uri(
