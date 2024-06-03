@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarScreen extends StatefulWidget {
-  final String walkerId;
+  final String profileId;
+  final bool isWalker;
 
-  const CalendarScreen({super.key, required this.walkerId});
+  const CalendarScreen({super.key, required this.profileId, required this.isWalker});
 
   @override
   CalendarScreenState createState() => CalendarScreenState();
@@ -14,6 +15,10 @@ class CalendarScreenState extends State<CalendarScreen> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  DateTime? _pickupDate;
+  DateTime? _dropoffDate;
+  String? _selectedPickupTime;
+  String? _selectedDropoffTime;
   Map<DateTime, List<String>> _availability = {};
 
   @override
@@ -38,6 +43,54 @@ class CalendarScreenState extends State<CalendarScreen> {
 
   List<String> _getEventsForDay(DateTime day) {
     return _availability[day] ?? [];
+  }
+
+  void _bookTime(String time) {
+    if (widget.isWalker) {
+      // Handle booking for walker
+      setState(() {
+        _selectedPickupTime = time;
+      });
+      _showConfirmationDialog();
+    } else {
+      // Handle booking for sitter
+      if (_pickupDate == null) {
+        setState(() {
+          _pickupDate = _selectedDay;
+          _selectedPickupTime = time;
+        });
+      } else if (_dropoffDate == null) {
+        setState(() {
+          _dropoffDate = _selectedDay;
+          _selectedDropoffTime = time;
+        });
+        _showConfirmationDialog();
+      }
+    }
+  }
+
+  void _showConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Booking Confirmation'),
+          content: widget.isWalker
+              ? Text('You have booked a walk on $_selectedDay at $_selectedPickupTime.')
+              : Text(
+                  'You have booked a sitter from $_pickupDate at $_selectedPickupTime to $_dropoffDate at $_selectedDropoffTime.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop(); // Close the CalendarScreen
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -80,7 +133,7 @@ class CalendarScreenState extends State<CalendarScreen> {
                 return ListTile(
                   title: Text(event),
                   onTap: () {
-                    // Handle booking
+                    _bookTime(event);
                   },
                 );
               },
