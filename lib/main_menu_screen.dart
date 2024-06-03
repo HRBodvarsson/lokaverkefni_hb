@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'ui/custom_navbar.dart';
 import 'list_of_walkers.dart';
+import 'list_of_sitters.dart';
 
 class MainMenuScreen extends StatefulWidget {
   final Map<String, dynamic> profileData;
@@ -27,12 +28,19 @@ class MainMenuScreenState extends State<MainMenuScreen> {
     );
   }
 
+  void _navigateToSitters(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ListOfSitters()),
+    );
+  }
+
   void _bookWalk() {
     _navigateToWalkers(context);
   }
 
   void _bookSitter() {
-    // Implement the functionality for booking a sitter
+    _navigateToSitters(context);
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'database_helper.dart'; // Import the database helper
+import 'database_helper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:io';
@@ -53,7 +53,7 @@ class MainScreen extends StatefulWidget {
 class MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
   Map<String, dynamic> _profileData = {};
-  final dbHelper = DatabaseHelper.instance; // Database helper instance
+  final dbHelper = DatabaseHelper.instance;
 
   final List<Widget> _screens = [];
 
@@ -65,7 +65,7 @@ class MainScreenState extends State<MainScreen> {
       ProfileScreen(profileData: _profileData),
       const SettingsScreen(),
     ]);
-    _loadProfileData(); // Load profile data from database on init
+    _loadProfileData();
   }
 
   void _onTap(int index) {
@@ -85,7 +85,7 @@ class MainScreenState extends State<MainScreen> {
         _profileData = result;
         _screens[1] = ProfileScreen(profileData: _profileData);
       });
-      _saveProfileData(result); // Save the profile data to the database
+      _saveProfileData(result);
     }
   }
 
@@ -109,7 +109,7 @@ class MainScreenState extends State<MainScreen> {
       final path = '${directory.path}/example.db';
       final file = File(path);
       if (await file.exists()) {
-        Share.shareFiles([path], text: 'Database file');
+        Share.shareXFiles([XFile(path)], text: 'Database file');
       } else {
         print('Database file does not exist');
       }

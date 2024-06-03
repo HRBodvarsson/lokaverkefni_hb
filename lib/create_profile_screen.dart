@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lokaverkefni_hb/image_handler.dart';
 import 'package:csv/csv.dart';
 import 'main_menu_screen.dart';
+import 'image_handler.dart'; // Ensure this file is in your project and handles image picking
+import 'email_sender.dart'; // Import the EmailSender class
 
 class CreateProfileScreen extends StatefulWidget {
   const CreateProfileScreen({super.key});
@@ -36,14 +37,12 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
   Future<void> _loadCsvData() async {
     try {
       final rawData = await rootBundle.loadString('assets/types_of_dogs.csv');
-      List<List<dynamic>> listData =
-          const CsvToListConverter().convert(rawData);
+      List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
       setState(() {
         _dogTypes = listData.map((row) => row[0].toString()).toList();
       });
     } catch (e) {
-      setState(() {
-      });
+      setState(() {});
     }
   }
 
@@ -52,22 +51,22 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
       final file = await ImageHandler.pickImage();
       setState(() {
         _image = file;
-// Clear any previous error message
       });
     } catch (e) {
-      setState(() {
-      });
+      setState(() {});
     }
   }
 
   void _submitProfile() {
     final profileData = {
-      'image': _image,
+      'image': _image?.path,
       'petName': _petName,
       'ownerName': _ownerName,
       'selectedDogType': _selectedDogType,
       'characteristics': _characteristics,
     };
+
+    EmailSender.sendEmail(profileData, _characteristicOptions);
 
     Navigator.pushReplacement(
       context,
