@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'database_helper.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'welcome_screen.dart';
 import 'create_profile_screen.dart';
@@ -10,7 +12,14 @@ import 'ui/custom_navbar.dart';
 import 'fonts.dart';
 import 'styles.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Delete the existing database
+  String databasesPath = await getDatabasesPath();
+  String path = join(databasesPath, "example.db");
+  await deleteDatabase(path); // Delete the existing database
+
   runApp(const MyApp());
 }
 
