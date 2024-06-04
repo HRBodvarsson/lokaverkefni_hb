@@ -20,7 +20,7 @@ class DatabaseHelper {
     String path = join(databasesPath, "example.db");
     return await openDatabase(
       path,
-      version: 2,
+      version: 3, // Incremented database version
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -61,6 +61,8 @@ class DatabaseHelper {
         "hour TEXT"
         ")",
       );
+    }
+    if (oldVersion < 3) {
       await db.execute(
         "CREATE TABLE profiles("
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
