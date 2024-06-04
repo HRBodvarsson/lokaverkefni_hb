@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'welcome_screen.dart';
 import 'create_profile_screen.dart';
-import 'profile_screen.dart';
+import 'user_profile_screen.dart';
 import 'settings_screen.dart';
 
 import 'ui/custom_navbar.dart';
@@ -96,6 +96,10 @@ class MainScreenState extends State<MainScreen> {
   void _onTap(int index) {
     setState(() {
       _currentIndex = index;
+      // Load profile data if Profile tab is selected
+      if (index == 1) {
+        _loadProfileData();
+      }
     });
   }
 
@@ -137,12 +141,10 @@ class MainScreenState extends State<MainScreen> {
         title: const Text('Main Screen'),
       ),
       body: _screens[_currentIndex],
-      bottomNavigationBar: _currentIndex == 0
-          ? null
-          : CustomNavBar(
-              currentIndex: _currentIndex,
-              onTap: _onTap,
-            ),
+      bottomNavigationBar: CustomNavBar(
+        currentIndex: _currentIndex,
+        onTap: _onTap,
+      ),
     );
   }
 }
