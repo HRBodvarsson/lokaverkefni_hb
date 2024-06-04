@@ -18,7 +18,7 @@ class DatabaseHelper {
 
   Future<Database> _initDatabase() async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
-    final path = join(documentsDirectory.path, "example.db");
+    final path = join(documentsDirectory.path, "snatalabb_v1.db");
     return await openDatabase(
       path,
       version: 3, // Incremented database version

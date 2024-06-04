@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'database_helper.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'welcome_screen.dart';
 import 'create_profile_screen.dart';
@@ -16,9 +15,9 @@ import 'styles.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Print the database path
-  String databasesPath = await getDatabasesPath();
-  String path = join(databasesPath, "example.db");
+  // Get and print the database path
+  final documentsDirectory = await getApplicationDocumentsDirectory();
+  final path = join(documentsDirectory.path, "example.db");
   print("Database Path: $path");
 
   runApp(const MyApp());
