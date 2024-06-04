@@ -116,6 +116,8 @@ class MainScreenState extends State<MainScreen> {
 
   void _saveProfileData(Map<String, dynamic> data) async {
     await dbHelper.insertProfile(data);
+    // Print database contents for debugging
+    await printDatabaseContents();
   }
 
   void _loadProfileData() async {
