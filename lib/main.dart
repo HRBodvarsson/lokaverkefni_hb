@@ -7,6 +7,7 @@ import 'welcome_screen.dart';
 import 'create_profile_screen.dart';
 import 'user_profile_screen.dart';
 import 'settings_screen.dart';
+import 'main_menu_screen.dart';
 
 import 'ui/custom_navbar.dart';
 import 'styles/fonts.dart';
@@ -20,7 +21,12 @@ void main() async {
   final path = join(documentsDirectory.path, "example.db");
   print("Database Path: $path");
 
-  runApp(const MyApp());
+  // Check if a profile exists
+  final dbHelper = DatabaseHelper.instance;
+  final allProfiles = await dbHelper.queryAllProfiles();
+  final bool hasProfile = allProfiles.isNotEmpty;
+
+  runApp(MyApp(hasProfile: hasProfile));
 
   // Print database contents for debugging
   await printDatabaseContents();
@@ -43,7 +49,9 @@ Future<void> printDatabaseContents() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool hasProfile;
+
+  const MyApp({super.key, required this.hasProfile});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +71,12 @@ class MyApp extends StatelessWidget {
           style: AppStyles.elevatedButtonStyle,
         ),
       ),
-      home: const MainScreen(),
+      home: hasProfile ? const MainScreen() : WelcomeScreen(navigateToCreateProfile: (context) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const CreateProfileScreen()),
+        );
+      }),
     );
   }
 }
@@ -85,21 +98,12 @@ class MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    _screens.addAll([
-      WelcomeScreen(navigateToCreateProfile: _navigateToCreateProfile),
-      ProfileScreen(profileData: _profileData),
-      const SettingsScreen(),
-    ]);
     _loadProfileData();
   }
 
   void _onTap(int index) {
     setState(() {
       _currentIndex = index;
-      // Load profile data if Profile tab is selected
-      if (index == 1) {
-        _loadProfileData();
-      }
     });
   }
 
@@ -112,7 +116,6 @@ class MainScreenState extends State<MainScreen> {
     if (result != null) {
       setState(() {
         _profileData = result;
-        _screens[1] = ProfileScreen(profileData: _profileData);
       });
       _saveProfileData(result);
     }
@@ -120,8 +123,7 @@ class MainScreenState extends State<MainScreen> {
 
   void _saveProfileData(Map<String, dynamic> data) async {
     await dbHelper.insertProfile(data);
-    // Print database contents for debugging
-    await printDatabaseContents();
+    await printDatabaseContents(); // For debugging
   }
 
   void _loadProfileData() async {
@@ -129,13 +131,25 @@ class MainScreenState extends State<MainScreen> {
     if (allRows.isNotEmpty) {
       setState(() {
         _profileData = allRows.first;
-        _screens[1] = ProfileScreen(profileData: _profileData);
       });
+      _screens.addAll([
+        MainMenuScreen(profileData: _profileData),
+        ProfileScreen(profileData: _profileData),
+        const SettingsScreen(),
+      ]);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_screens.isEmpty) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Main Screen'),
