@@ -8,6 +8,7 @@ import 'create_profile_screen.dart';
 import 'user_profile_screen.dart';
 import 'settings_screen.dart';
 import 'main_menu_screen.dart';
+import 'cli.dart'; // Import CLI functions
 
 import 'ui/custom_navbar.dart';
 import 'styles/fonts.dart';
@@ -30,6 +31,9 @@ void main() async {
 
   // Print database contents for debugging
   await printDatabaseContents();
+
+  // Start the CLI
+  await handleTerminalCommands(); // This will listen for commands in the terminal
 }
 
 Future<void> printDatabaseContents() async {
