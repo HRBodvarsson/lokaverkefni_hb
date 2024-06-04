@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'database_helper.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -15,12 +16,31 @@ import 'styles.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Delete the existing database
+  // Print the database path
   String databasesPath = await getDatabasesPath();
   String path = join(databasesPath, "example.db");
-  await deleteDatabase(path); // Delete the existing database
+  print("Database Path: $path");
 
   runApp(const MyApp());
+
+  // Print database contents for debugging
+  await printDatabaseContents();
+}
+
+Future<void> printDatabaseContents() async {
+  final dbHelper = DatabaseHelper.instance;
+  List<Map<String, dynamic>> profiles = await dbHelper.queryAllProfiles();
+  List<Map<String, dynamic>> bookings = await dbHelper.queryAllBookings();
+
+  print("Profiles Table:");
+  for (var row in profiles) {
+    print(row);
+  }
+
+  print("Bookings Table:");
+  for (var row in bookings) {
+    print(row);
+  }
 }
 
 class MyApp extends StatelessWidget {

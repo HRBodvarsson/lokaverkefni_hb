@@ -76,6 +76,16 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
       'characteristics': characteristicsString,
     };
 
+    // Debug statement to check collected data
+    print('Profile Data to be inserted: $profileData');
+
+    // Insert profile data into the database
+    await dbHelper.insertProfile(profileData);
+
+    // Debug statement to confirm insertion
+    print('Profile Data inserted');
+
+
     await dbHelper.insertProfile(profileData);
 
     if (mounted) {
