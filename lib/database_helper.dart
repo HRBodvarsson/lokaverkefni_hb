@@ -123,6 +123,12 @@ class DatabaseHelper {
     return await db.delete('profiles', where: 'id = ?', whereArgs: [id]);
   }
 
+  Future<int> deleteAllProfiles() async {
+    Database db = await instance.database;
+    print("Deleting all profiles");
+    return await db.delete('profiles');
+  }
+
   Future<int> deleteBooking(int id) async {
     Database db = await instance.database;
     print("Deleting booking with id: $id");
