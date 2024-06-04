@@ -9,8 +9,8 @@ import 'profile_screen.dart';
 import 'settings_screen.dart';
 
 import 'ui/custom_navbar.dart';
-import 'fonts.dart';
-import 'styles.dart';
+import 'styles/fonts.dart';
+import 'styles/styles.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

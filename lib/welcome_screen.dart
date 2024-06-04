@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'styles.dart';
-import 'fonts.dart'; // Import the styles
+import 'styles/styles.dart';
+import 'styles/fonts.dart'; // Import the styles
 
 class WelcomeScreen extends StatelessWidget {
   final Function(BuildContext) navigateToCreateProfile;
