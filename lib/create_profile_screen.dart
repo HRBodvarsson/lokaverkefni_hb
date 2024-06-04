@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lokaverkefni_hb/image_handler.dart';
 import 'package:csv/csv.dart';
 import 'main_menu_screen.dart';
-import 'image_handler.dart'; // Ensure this file is in your project and handles image picking
-import 'email_sender.dart'; // Import the EmailSender class
+import 'database_helper.dart';
 
 class CreateProfileScreen extends StatefulWidget {
   const CreateProfileScreen({super.key});
@@ -28,6 +28,8 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
     'Behaves well with other people'
   ];
 
+  final dbHelper = DatabaseHelper.instance;
+
   @override
   void initState() {
     super.initState();
@@ -38,42 +40,52 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
     try {
       final rawData = await rootBundle.loadString('assets/types_of_dogs.csv');
       List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
-      setState(() {
-        _dogTypes = listData.map((row) => row[0].toString()).toList();
-      });
+      if (mounted) {
+        setState(() {
+          _dogTypes = listData.map((row) => row[0].toString()).toList();
+        });
+      }
     } catch (e) {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
   Future<void> _pickImage() async {
     try {
       final file = await ImageHandler.pickImage();
-      setState(() {
-        _image = file;
-      });
+      if (mounted) {
+        setState(() {
+          _image = file;
+        });
+      }
     } catch (e) {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
-  void _submitProfile() {
+  void _submitProfile() async {
+    final characteristicsString = _characteristics.join(',');
     final profileData = {
-      'image': _image?.path,
       'petName': _petName,
       'ownerName': _ownerName,
       'selectedDogType': _selectedDogType,
-      'characteristics': _characteristics,
+      'characteristics': characteristicsString,
     };
 
-    EmailSender.sendEmail(profileData, _characteristicOptions);
+    await dbHelper.insertProfile(profileData);
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MainMenuScreen(profileData: profileData),
-      ),
-    );
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MainMenuScreen(profileData: profileData),
+        ),
+      );
+    }
   }
 
   @override

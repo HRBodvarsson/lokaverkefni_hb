@@ -20,7 +20,7 @@ class DatabaseHelper {
     String path = join(databasesPath, "example.db");
     return await openDatabase(
       path,
-      version: 2, // Updated version to 2
+      version: 2,
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -39,6 +39,15 @@ class DatabaseHelper {
       "hour TEXT"
       ")",
     );
+    await db.execute(
+      "CREATE TABLE profiles("
+      "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+      "petName TEXT, "
+      "ownerName TEXT, "
+      "selectedDogType TEXT, "
+      "characteristics TEXT"
+      ")",
+    );
   }
 
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -52,12 +61,21 @@ class DatabaseHelper {
         "hour TEXT"
         ")",
       );
+      await db.execute(
+        "CREATE TABLE profiles("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        "petName TEXT, "
+        "ownerName TEXT, "
+        "selectedDogType TEXT, "
+        "characteristics TEXT"
+        ")",
+      );
     }
   }
 
-  Future<int> insert(Map<String, dynamic> row) async {
+  Future<int> insertProfile(Map<String, dynamic> row) async {
     Database db = await instance.database;
-    return await db.insert('example', row);
+    return await db.insert('profiles', row);
   }
 
   Future<int> insertBooking(Map<String, dynamic> row) async {
@@ -65,9 +83,9 @@ class DatabaseHelper {
     return await db.insert('bookings', row);
   }
 
-  Future<List<Map<String, dynamic>>> queryAll() async {
+  Future<List<Map<String, dynamic>>> queryAllProfiles() async {
     Database db = await instance.database;
-    return await db.query('example');
+    return await db.query('profiles');
   }
 
   Future<List<Map<String, dynamic>>> queryAllBookings() async {
@@ -75,15 +93,20 @@ class DatabaseHelper {
     return await db.query('bookings');
   }
 
-  Future<int> update(Map<String, dynamic> row) async {
+  Future<int> updateProfile(Map<String, dynamic> row) async {
     Database db = await instance.database;
     int id = row['id'];
-    return await db.update('example', row, where: 'id = ?', whereArgs: [id]);
+    return await db.update('profiles', row, where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<int> delete(int id) async {
+  Future<int> deleteProfile(int id) async {
     Database db = await instance.database;
-    return await db.delete('example', where: 'id = ?', whereArgs: [id]);
+    return await db.delete('profiles', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int> deleteBooking(int id) async {
+    Database db = await instance.database;
+    return await db.delete('bookings', where: 'id = ?', whereArgs: [id]);
   }
 
   static final DatabaseHelper instance = DatabaseHelper();

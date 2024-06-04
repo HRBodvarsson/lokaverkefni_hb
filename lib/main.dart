@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'database_helper.dart';
-import 'package:share_plus/share_plus.dart';
-import 'dart:io';
-import 'package:path/path.dart';  // Import the path package
 
 import 'welcome_screen.dart';
 import 'create_profile_screen.dart';
@@ -91,11 +87,11 @@ class MainScreenState extends State<MainScreen> {
   }
 
   void _saveProfileData(Map<String, dynamic> data) async {
-    await dbHelper.insert(data);
+    await dbHelper.insertProfile(data);
   }
 
   void _loadProfileData() async {
-    final allRows = await dbHelper.queryAll();
+    final allRows = await dbHelper.queryAllProfiles();
     if (allRows.isNotEmpty) {
       setState(() {
         _profileData = allRows.first;
@@ -104,32 +100,11 @@ class MainScreenState extends State<MainScreen> {
     }
   }
 
-  Future<void> _shareDatabase() async {
-    try {
-      String databasesPath = await getDatabasesPath();
-      String path = join(databasesPath, 'example.db');
-      final file = File(path);
-      if (await file.exists()) {
-        Share.shareXFiles([XFile(path)], text: 'Database file');
-      } else {
-        print('Database file does not exist');
-      }
-    } catch (e) {
-      print('Error sharing database file: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Main Screen'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.share),
-            onPressed: _shareDatabase,
-          ),
-        ],
       ),
       body: _screens[_currentIndex],
       bottomNavigationBar: _currentIndex == 0
