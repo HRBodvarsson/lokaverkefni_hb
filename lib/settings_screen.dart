@@ -11,9 +11,6 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  void _quitApplication() {
-    quitApplication();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +25,6 @@ class SettingsScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () => _eraseProfileData(context),
               child: const Text('Erase Profile Data'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _quitApplication,
-              child: const Text('Quit Application'),
             ),
           ],
         ),
