@@ -3,7 +3,7 @@ import 'database_helper.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'welcome_screen.dart';
+import 'login_screen.dart';
 import 'create_profile_screen.dart';
 import 'user_profile_screen.dart';
 import 'settings_screen.dart';
@@ -12,6 +12,16 @@ import 'main_menu_screen.dart';// Import CLI functions
 import 'ui/custom_navbar.dart';
 import 'styles/fonts.dart';
 import 'styles/styles.dart';
+
+var kColorScheme = ColorScheme.fromSeed(
+  seedColor: const Color.fromARGB(255, 96, 59, 181),
+);
+
+var kDarkColorScheme = ColorScheme.fromSeed(
+  brightness: Brightness.dark,
+  seedColor: const Color.fromARGB(255, 5, 99, 125),
+);
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,20 +47,9 @@ Future<void> printDatabaseContents() async {
   final dbHelper = DatabaseHelper.instance;
   List<Map<String, dynamic>> profiles = await dbHelper.queryAllProfiles();
   List<Map<String, dynamic>> bookings = await dbHelper.queryAllBookings();
-
-  print("Profiles Table:");
-  for (var row in profiles) {
-    print(row);
-  }
-
-  print("Bookings Table:");
-  for (var row in bookings) {
-    print(row);
-  }
 }
 
 class MyApp extends StatelessWidget {
-  final bool hasProfile;
 
   const MyApp({super.key, required this.hasProfile});
 
@@ -72,7 +71,7 @@ class MyApp extends StatelessWidget {
           style: AppStyles.elevatedButtonStyle,
         ),
       ),
-      home: hasProfile ? const MainScreen() : WelcomeScreen(navigateToCreateProfile: (context) {
+      home: hasProfile ? const LoginScreen() : LoginScreen(navigateToCreateProfile: (context) {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const CreateProfileScreen()),
@@ -82,14 +81,14 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key, required Null Function(dynamic context) navigateToCreateProfile});
 
   @override
-  MainScreenState createState() => MainScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class MainScreenState extends State<MainScreen> {
+class LoginScreenState extends State<LoginScreen> {
   int _currentIndex = 0;
   Map<String, dynamic> _profileData = {};
   final dbHelper = DatabaseHelper.instance;
@@ -108,7 +107,7 @@ class MainScreenState extends State<MainScreen> {
     });
   }
 
-  void _navigateToCreateProfile(BuildContext context) async {
+  void z(BuildContext context) async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const CreateProfileScreen()),
@@ -153,7 +152,7 @@ class MainScreenState extends State<MainScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Main Screen'),
+        title: const Text(''),
       ),
       body: _screens[_currentIndex],
       bottomNavigationBar: CustomNavBar(

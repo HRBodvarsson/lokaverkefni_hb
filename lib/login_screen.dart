@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'styles/styles.dart';
 import 'styles/fonts.dart'; // Import the styles
 
-class WelcomeScreen extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
   final Function(BuildContext) navigateToCreateProfile;
 
-  const WelcomeScreen({super.key, required this.navigateToCreateProfile});
+  const LoginScreen({super.key, required this.navigateToCreateProfile});
 
   @override
   Widget build(BuildContext context) {

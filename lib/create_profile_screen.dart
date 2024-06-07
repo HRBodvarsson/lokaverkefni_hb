@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:lokaverkefni_hb/image_handler.dart';
+import 'image_handler.dart';
 import 'package:csv/csv.dart';
 import 'main_menu_screen.dart';
 import 'database_helper.dart';
@@ -39,7 +39,8 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
   Future<void> _loadCsvData() async {
     try {
       final rawData = await rootBundle.loadString('assets/types_of_dogs.csv');
-      List<List<dynamic>> listData = const CsvToListConverter().convert(rawData);
+      List<List<dynamic>> listData =
+          const CsvToListConverter().convert(rawData);
       if (mounted) {
         setState(() {
           _dogTypes = listData.map((row) => row[0].toString()).toList();
@@ -76,15 +77,7 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
       'characteristics': characteristicsString,
     };
 
-    // Debug statement to check collected data
-    print('Profile Data to be inserted: $profileData');
-
-    // Insert profile data into the database
     await dbHelper.insertProfile(profileData);
-
-    // Debug statement to confirm insertion
-    print('Profile Data inserted');
-
 
     await dbHelper.insertProfile(profileData);
 
@@ -178,7 +171,8 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ExpansionTile(
-                  title: Text('Characteristics', style: Theme.of(context).textTheme.bodyLarge),
+                  title: Text('Characteristics',
+                      style: Theme.of(context).textTheme.bodyLarge),
                   children: _characteristicOptions.map((String option) {
                     int index = _characteristicOptions.indexOf(option);
                     return CheckboxListTile(
@@ -196,7 +190,7 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
               ElevatedButton(
                 onPressed: _submitProfile,
                 child: Text(
-                  'Submit Profile',
+                  'Submit',
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
               ),

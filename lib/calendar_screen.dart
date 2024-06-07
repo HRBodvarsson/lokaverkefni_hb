@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 import 'database_helper.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -13,12 +13,11 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class CalendarScreenState extends State<CalendarScreen> {
-  CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
-  String? _selectedHour;
+  final DateTime _focusedDay = DateTime.now();
   final dbHelper = DatabaseHelper.instance;
   Map<DateTime, List<String>> _availability = {};
+  DateTime? _selectedDay;
+  String? _selectedHour;
 
   @override
   void initState() {
@@ -30,8 +29,8 @@ class CalendarScreenState extends State<CalendarScreen> {
     // For simplicity, assuming default availability from 8:00 to 22:00
     setState(() {
       _availability = {
-        for (var i = 0; i < 30; i++)
-          DateTime.now().add(Duration(days: i)): [
+        for (var i = 0; i < 7; i++)
+          DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1 - i)): [
             '08:00', '09:00', '10:00', '11:00', '12:00', '13:00',
             '14:00', '15:00', '16:00', '17:00', '18:00', '19:00',
             '20:00', '21:00', '22:00'
@@ -86,69 +85,90 @@ class CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final daysOfWeek = List<DateTime>.generate(7, (index) => _focusedDay.subtract(Duration(days: _focusedDay.weekday - 1 - index)));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Availability'),
       ),
       body: Column(
         children: [
-          TableCalendar(
-            firstDay: DateTime.now(),
-            lastDay: DateTime.now().add(const Duration(days: 365)),
-            focusedDay: _focusedDay,
-            calendarFormat: _calendarFormat,
-            selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
-            },
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay; // update `_focusedDay` here as well
-              });
-            },
-            onFormatChanged: (format) {
-              if (_calendarFormat != format) {
-                setState(() {
-                  _calendarFormat = format;
-                });
-              }
-            },
-            eventLoader: _getEventsForDay,
-          ),
-          const SizedBox(height: 8.0),
-          if (_selectedDay != null)
-            Expanded(
-              child: Column(
-                children: [
-                  Text(
-                    'Available Hours for ${_selectedDay!.toLocal()}'.split(' ')[0],
-                    style: Theme.of(context).textTheme.displaySmall,
-                  ),
-                  const SizedBox(height: 8.0),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: _getEventsForDay(_selectedDay!).length,
-                      itemBuilder: (context, index) {
-                        final hour = _getEventsForDay(_selectedDay!)[index];
-                        return ListTile(
-                          title: Text(hour),
-                          selected: _selectedHour == hour,
-                          onTap: () {
-                            setState(() {
-                              _selectedHour = hour;
-                            });
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: daysOfWeek.length,
+              itemBuilder: (context, index) {
+                final day = daysOfWeek[index];
+                return Container(
+                  width: MediaQuery.of(context).size.width / 2,
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        DateFormat('EEEE, MMM d').format(day),
+                        style: Theme.of(context).textTheme.displaySmall,
+                      ),
+                      Expanded(
+                        child: GridView.builder(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            childAspectRatio: 5,
+                          ),
+                          itemCount: _getEventsForDay(day).length,
+                          itemBuilder: (context, hourIndex) {
+                            final hour = _getEventsForDay(day)[hourIndex];
+                            bool isBooked = false; // Replace with actual booking logic
+                            Color hourColor = isBooked
+                                ? Colors.red
+                                : (_selectedDay == day && _selectedHour == hour
+                                    ? Colors.blue
+                                    : Colors.green);
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _selectedDay = day;
+                                  _selectedHour = hour;
+                                });
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(vertical: 4.0),
+                                color: hourColor,
+                                child: Center(
+                                  child: Text(
+                                    hour,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
                           },
-                        );
-                      },
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
-                  ElevatedButton(
-                    onPressed: _submitBooking,
-                    child: const Text('Submit Booking'),
-                  ),
-                ],
+                );
+              },
+            ),
+          ),
+          if (_selectedDay != null && _selectedHour != null)
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed: _submitBooking,
+                child: const Text('Submit Booking'),
               ),
             ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Text(
+              '$DateTime',
+              style: Theme.of(context).textTheme.bodyLarge,
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       ),
     );
