@@ -79,8 +79,6 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
 
     await dbHelper.insertProfile(profileData);
 
-    await dbHelper.insertProfile(profileData);
-
     if (mounted) {
       Navigator.pushReplacement(
         context,
