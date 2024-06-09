@@ -1,2 +1,2 @@
-id;name;description;age;experience_years;cost_hour;max_days;rating;total_sittings;photo
-212;Sigga;Sigga elskar hunda og elskar að passa Þess vegna er Jóna hundalabbari. Það er ekkert leyndarmál að henni Jónu finnst kjörís betri en emmesís en hún reynir þó að halda því fyrir sjálfa sig.;29;3;2500;7;4.2;300;sigga.jpg
+id;name;description;age;experience_years;cost_hour;rating;total_sittings;photo
+212;Sigga;Sigga elskar hunda og elskar að passa Þess vegna er Jóna hundalabbari. Það er ekkert leyndarmál að henni Jónu finnst kjörís betri en emmesís en hún reynir þó að halda því fyrir sjálfa sig.;29;3;2500;4.2;300;sigga.jpg

@@ -71,8 +71,11 @@ flutter:
     - assets/images/benedikta.jpg
     - assets/images/benedikta-portrait.jpg
     - assets/images/sigga.jpg
+    - assets/images/sigga-portrait.jpg
     - assets/images/salli.jpg
+    - assets/images/salli-portrait.jpg
     - assets/images/tindur.jpg
+    - assets/images/tindur-portrait.jpg
     - assets/vectors/snatalabb_logo_1.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
