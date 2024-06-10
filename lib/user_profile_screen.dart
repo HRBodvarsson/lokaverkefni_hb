@@ -53,10 +53,10 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _profileData['image'] == null
+                    _profileData['imagePath'] == null
                         ? const Text('No image selected.')
                         : Image.file(
-                            _profileData['image'] as File,
+                            File(_profileData['imagePath']),
                             height: 200,
                           ),
                     const SizedBox(height: 20),

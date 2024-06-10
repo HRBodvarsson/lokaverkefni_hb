@@ -74,19 +74,17 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
       'ownerName': _ownerName,
       'selectedDogType': _selectedDogType,
       'characteristics': characteristicsString,
+      'imagePath': _image?.path
     };
 
     // Debug statement to check collected data
-    //print('Profile Data to be inserted: $profileData');
+    print('Profile Data to be inserted: $profileData');
 
     // Insert profile data into the database
-   // await dbHelper.insertProfile(profileData);
+    int id = await dbHelper.insertProfile(profileData);
 
     // Debug statement to confirm insertion
-   // print('Profile Data inserted');
-
-
-   // await dbHelper.insertProfile(profileData);
+    print('Profile Data inserted with id: $id');
 
     if (mounted) {
       Navigator.pushReplacement(

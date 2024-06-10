@@ -12,7 +12,7 @@ void main() async {
 
   // Get and print the database path
   final documentsDirectory = await getApplicationDocumentsDirectory();
-  final path = join(documentsDirectory.path, "example.db");
+  final path = join(documentsDirectory.path, "snatalabb_v1");
   print("Database Path: $path");
 
   runApp(const MyApp());
