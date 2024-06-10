@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lokaverkefni_hb/routes.dart';
 
 class CustomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -10,7 +11,20 @@ class CustomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       currentIndex: currentIndex,
-      onTap: onTap,
+      onTap: (index) {
+        onTap(index);
+        switch (index) {
+          case 0:
+            Navigator.pushNamed(context, Routes.mainMenu);
+            break;
+          case 1:
+            Navigator.pushNamed(context, Routes.userProfile);
+            break;
+          case 2:
+            Navigator.pushNamed(context, Routes.settings);
+            break;
+        }
+      },
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),

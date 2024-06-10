@@ -77,16 +77,16 @@ class CreateProfileScreenState extends State<CreateProfileScreen> {
     };
 
     // Debug statement to check collected data
-    print('Profile Data to be inserted: $profileData');
+    //print('Profile Data to be inserted: $profileData');
 
     // Insert profile data into the database
-    await dbHelper.insertProfile(profileData);
+   // await dbHelper.insertProfile(profileData);
 
     // Debug statement to confirm insertion
-    print('Profile Data inserted');
+   // print('Profile Data inserted');
 
 
-    await dbHelper.insertProfile(profileData);
+   // await dbHelper.insertProfile(profileData);
 
     if (mounted) {
       Navigator.pushReplacement(

@@ -26,7 +26,7 @@ class SitterProfileScreenState extends State<SitterProfileScreen> {
   }
 
   Future<void> _loadProfileData() async {
-    try {
+    //try {
       final rawData = await rootBundle.loadString('assets/profiles/sitter_${widget.sitterId}.csv');
       List<List<dynamic>> listData = const CsvToListConverter(eol: '\n', fieldDelimiter: ';').convert(rawData);
       setState(() {
@@ -42,9 +42,9 @@ class SitterProfileScreenState extends State<SitterProfileScreen> {
           'photo': 'assets/images/${listData[1][8].toString().trim()}',
         };
       });
-    } catch (e) {
+   /*  } catch (e) {
       print('Error loading profile data: $e');
-    }
+    } */
   }
 
   @override

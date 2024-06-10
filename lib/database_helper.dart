@@ -19,7 +19,7 @@ class DatabaseHelper {
   Future<Database> _initDatabase() async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, "snatalabb_v1.db");
-    print("Initializing database at path: $path");
+    //print("Initializing database at path: $path");
     return await openDatabase(
       path,
       version: 3, // Incremented database version
@@ -29,7 +29,7 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
-    print("Creating tables");
+    //print("Creating tables");
     await db.execute(
       "CREATE TABLE example(id INTEGER PRIMARY KEY, name TEXT)",
     );
@@ -80,9 +80,9 @@ class DatabaseHelper {
 
   Future<int> insertProfile(Map<String, dynamic> row) async {
     Database db = await instance.database;
-    print("Inserting profile: $row");
+    //print("Inserting profile: $row");
     int id = await db.insert('profiles', row);
-    print("Inserted profile with id: $id");
+    //print("Inserted profile with id: $id");
     return id;
   }
 

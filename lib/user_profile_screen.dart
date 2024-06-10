@@ -2,20 +2,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'database_helper.dart';
 
-class ProfileScreen extends StatefulWidget {
-  final Map<String, dynamic> profileData;
-
-  const ProfileScreen({super.key, required this.profileData});
+class UserProfileScreen extends StatefulWidget {
+  const UserProfileScreen({super.key, required Map profileData});
 
   @override
-  ProfileScreenState createState() => ProfileScreenState();
+  UserProfileScreenState createState() => UserProfileScreenState();
 }
 
-class ProfileScreenState extends State<ProfileScreen> {
-  late Map<String, dynamic> _profileData;
-  bool _isEditing = false;
-  final _formKey = GlobalKey<FormState>();
-
+class UserProfileScreenState extends State<UserProfileScreen> {
+  Map<String, dynamic> _profileData = {};
   final List<String> _characteristicOptions = [
     'Is collar trained',
     'Likes to play catch',
@@ -27,8 +22,6 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    _profileData = Map<String, dynamic>.from(widget.profileData);
-    _profileData['characteristics'] = _parseCharacteristics(_profileData['characteristics']);
     _fetchLatestProfileData();
   }
 
@@ -47,123 +40,108 @@ class ProfileScreenState extends State<ProfileScreen> {
     return characteristics.split(',').map((item) => item.trim() == 'true').toList();
   }
 
-  String _characteristicsToString(List<bool> characteristics) {
-    return characteristics.map((item) => item.toString()).join(',');
-  }
-
-  void _toggleEditMode() {
-    setState(() {
-      _isEditing = !_isEditing;
-    });
-  }
-
-  void _saveProfileData() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      _profileData['characteristics'] = _characteristicsToString(List<bool>.from(_profileData['characteristics']));
-      final dbHelper = DatabaseHelper.instance;
-      await dbHelper.updateProfile(_profileData);
-      _toggleEditMode();
-      await _fetchLatestProfileData();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dog Profile'),
-        actions: [
-          IconButton(
-            icon: Icon(_isEditing ? Icons.check : Icons.edit),
-            onPressed: _isEditing ? _saveProfileData : _toggleEditMode,
+        title: const Text('User Profile'),
+      ),
+      body: _profileData.isEmpty
+          ? const Center(child: CircularProgressIndicator())
+          : Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _profileData['image'] == null
+                        ? const Text('No image selected.')
+                        : Image.file(
+                            _profileData['image'] as File,
+                            height: 200,
+                          ),
+                    const SizedBox(height: 20),
+                    _buildProfileInfoRow(
+                      label: 'Pet\'s Name',
+                      value: _profileData['petName'] ?? '',
+                    ),
+                    _buildProfileInfoRow(
+                      label: 'Owner\'s Name',
+                      value: _profileData['ownerName'] ?? '',
+                    ),
+                    _buildProfileInfoRow(
+                      label: 'Type of Dog',
+                      value: _profileData['selectedDogType'] ?? '',
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+                      child: Text(
+                        'Characteristics:',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    ...List.generate(
+                      _profileData['characteristics'].length,
+                      (index) {
+                        if (_profileData['characteristics'][index] is bool && _profileData['characteristics'][index]) {
+                          return _buildCharacteristicRow(
+                            characteristic: _characteristicOptions[index],
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+    );
+  }
+
+  Widget _buildProfileInfoRow({
+    required String label,
+    required String value,
+  }) {
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Color.fromARGB(255, 96, 96, 96), width: 1.0),
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 16),
           ),
         ],
-      ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _profileData['image'] == null
-                    ? const Text('No image selected.')
-                    : Image.file(
-                        _profileData['image'] as File,
-                        height: 200,
-                      ),
-                const SizedBox(height: 20),
-                _buildTextField(
-                  label: 'Pet\'s Name',
-                  initialValue: _profileData['petName'] ?? '',
-                  enabled: _isEditing,
-                  onSaved: (value) {
-                    _profileData['petName'] = value;
-                  },
-                ),
-                const SizedBox(height: 10),
-                _buildTextField(
-                  label: 'Owner\'s Name',
-                  initialValue: _profileData['ownerName'] ?? '',
-                  enabled: _isEditing,
-                  onSaved: (value) {
-                    _profileData['ownerName'] = value;
-                  },
-                ),
-                const SizedBox(height: 10),
-                _buildTextField(
-                  label: 'Type of Dog',
-                  initialValue: _profileData['selectedDogType'] ?? '',
-                  enabled: _isEditing,
-                  onSaved: (value) {
-                    _profileData['selectedDogType'] = value;
-                  },
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Characteristics:',
-                  style: TextStyle(fontSize: 16),
-                ),
-                ...List.generate(
-                  _profileData['characteristics'].length,
-                  (index) {
-                    if (_profileData['characteristics'][index] is bool && _profileData['characteristics'][index]) {
-                      return Text(
-                        '- ${_characteristicOptions[index]}',
-                        style: const TextStyle(fontSize: 16),
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
 
-  Widget _buildTextField({
-    required String label,
-    required String initialValue,
-    required bool enabled,
-    required void Function(String?) onSaved,
+  Widget _buildCharacteristicRow({
+    required String characteristic,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: TextFormField(
-        decoration: InputDecoration(labelText: label),
-        initialValue: initialValue,
-        enabled: enabled,
-        onSaved: onSaved,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter $label';
-          }
-          return null;
-        },
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Color.fromARGB(255, 96, 96, 96), width: 1.0),
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            '- $characteristic',
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
       ),
     );
   }

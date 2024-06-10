@@ -4,9 +4,9 @@ import 'list_of_walkers.dart';
 import 'list_of_sitters.dart';
 
 class MainMenuScreen extends StatefulWidget {
-  final Map<String, dynamic> profileData;
+  final Map<String, dynamic>? profileData;
 
-  const MainMenuScreen({super.key, required this.profileData});
+  const MainMenuScreen({super.key, this.profileData});
 
   @override
   MainMenuScreenState createState() => MainMenuScreenState();
@@ -47,7 +47,6 @@ class MainMenuScreenState extends State<MainMenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Main Menu"),
       ),
       body: Center(
         child: Column(

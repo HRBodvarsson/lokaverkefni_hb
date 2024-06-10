@@ -26,7 +26,7 @@ class WalkerProfileScreenState extends State<WalkerProfileScreen> {
   }
 
   Future<void> _loadProfileData() async {
-    try {
+    //try {
       final rawData = await rootBundle.loadString('assets/profiles/walker_${widget.walkerId}.csv');
       List<List<dynamic>> listData = const CsvToListConverter(eol: '\n', fieldDelimiter: ';').convert(rawData);
       setState(() {
@@ -43,9 +43,9 @@ class WalkerProfileScreenState extends State<WalkerProfileScreen> {
           'photo': 'assets/images/${listData[1][9].toString().trim()}',
         };
       });
-    } catch (e) {
+    /* } catch (e) {
       print('Error loading profile data: $e');
-    }
+    } */
   }
 
   @override

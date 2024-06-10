@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'styles/styles.dart';
 import 'styles/fonts.dart'; // Import the styles
+import 'routes.dart';
 
 class LoginScreen extends StatelessWidget {
-  final Function(BuildContext) navigateToCreateProfile;
-  final Function(BuildContext) navigateToMainMenu;
-
-  const LoginScreen({super.key, required this.navigateToCreateProfile, required this.navigateToMainMenu});
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController usernameController = TextEditingController(text: 'Skuggi');
+    final TextEditingController usernameController = TextEditingController(text: 'dummyuser');
     final TextEditingController passwordController = TextEditingController(text: 'dummypassword');
 
     return Scaffold(
@@ -60,7 +58,7 @@ class LoginScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Add login logic here
-                navigateToMainMenu(context);
+                Navigator.pushReplacementNamed(context, Routes.mainMenu);
               },
               style: AppStyles.elevatedButtonStyle, // Use the custom style
               child: Text(
@@ -70,7 +68,9 @@ class LoginScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => navigateToCreateProfile(context),
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.createProfile);
+              },
               style: AppStyles.elevatedButtonStyle, // Use the custom style
               child: Text(
                 'Create New Profile',

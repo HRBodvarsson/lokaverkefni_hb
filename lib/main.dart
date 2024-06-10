@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'database_helper.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'login_screen.dart';
-import 'create_profile_screen.dart';
-import 'user_profile_screen.dart';
-import 'settings_screen.dart';
-import 'main_menu_screen.dart';
-
-import 'ui/custom_navbar.dart';
+//import 'database_helper.dart';
+import 'routes.dart';
 import 'styles/fonts.dart';
 import 'styles/styles.dart';
 
@@ -23,11 +17,10 @@ void main() async {
 
   runApp(const MyApp());
 
-  // Print database contents for debugging
-  await printDatabaseContents();
+  //await printDatabaseContents();
 }
 
-Future<void> printDatabaseContents() async {
+/* Future<void> printDatabaseContents() async {
   final dbHelper = DatabaseHelper.instance;
   List<Map<String, dynamic>> profiles = await dbHelper.queryAllProfiles();
   List<Map<String, dynamic>> bookings = await dbHelper.queryAllBookings();
@@ -41,7 +34,7 @@ Future<void> printDatabaseContents() async {
   for (var row in bookings) {
     print(row);
   }
-}
+} */
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -64,20 +57,8 @@ class MyApp extends StatelessWidget {
           style: AppStyles.elevatedButtonStyle,
         ),
       ),
-      home: LoginScreen(
-        navigateToCreateProfile: (context) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const CreateProfileScreen()),
-          );
-        },
-        navigateToMainMenu: (context) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const MainMenuScreen(profileData: {},)),
-          );
-        },
-      ),
+      initialRoute: Routes.login,
+      onGenerateRoute: Routes.generateRoute,
     );
   }
 }
